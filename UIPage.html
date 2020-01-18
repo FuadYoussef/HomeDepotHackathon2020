@@ -40,21 +40,32 @@
 	<script>
 		var canvas = document.getElementById("myCanvas");
 		var ctx = canvas.getContext("2d");
-		
+
+
+
 		var warehousex = 0
 		var warehousey = 0
 		var warehouse = new Image();
 		warehouse.src = 'warehouse.jpg';
-		var truckx = 0;
-		var trucky = 0;
-		var truck = new Image();
-		truck.src = 'truck.png';
-		var storex = 200;
-		var storey = 200;
-		var store = new Image();
-		store.src = 'store.jpg';
+
+		var trucks= new Array();
+		var stores = new Array();
+		var z;
+		for (z = 0; z < 3; z++) {
+			var truckToAdd = { x:0, y:0}
+			trucks.push(truckToAdd);
+		}
+		var q;
+		for (q = 0; q<3; q++) {
+			var storeToAdd = {x:(q+1)*100, y:q*100}
+			stores.push(storeToAdd);
+		}
 		var wdivisions = 10;
 		var hdivisions = 10;
+		var drawTruck = new Image();
+		drawTruck.src = 'truck.png';
+		var drawStore = new Image();
+		drawStore.src = 'store.jpg';
 		window.requestAnimationFrame(function loop() {
 			ctx.clearRect(0, 0, canvas.width, canvas.height)
 			ctx.fillStyle = "#FF6400";
@@ -72,14 +83,25 @@
 			    ctx.stroke();
 			}
 			ctx.drawImage(warehouse, warehousex, warehousey, 30, 30);
-			ctx.drawImage(truck, truckx, trucky, 30,30);
-			ctx.drawImage(store, storex, storey, 30,30);
+			for (var c = 0; c < stores.length; c++) {
+				ctx.drawImage(drawStore, stores[c].x, stores[c].y, 30,30);
+			}
+			for (var b = 0; b < trucks.length; b++) {
+				ctx.drawImage(drawTruck, trucks[b].x, trucks[b].y, 30,30);
+			}
+
 		  window.requestAnimationFrame(loop)
 		})
 		document.addEventListener('mousedown', function(event) {
 		  if (event.button === 0) {
-		    truckx += canvas.width/wdivisions
-		    trucky += canvas.height/hdivisions
+		    trucks[0].x += (canvas.width/wdivisions)
+		    trucks[0].y += (canvas.height/hdivisions)
+
+		    trucks[1].x += (3*canvas.width/wdivisions)
+		    trucks[1].y += (canvas.height/hdivisions)
+
+		    trucks[2].x += (2*canvas.width/wdivisions)
+		    trucks[2].y += (4*canvas.height/hdivisions)
 		  }
 		})
 
