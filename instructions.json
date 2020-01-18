@@ -15,21 +15,9 @@
       "truck": 0,
       "x": 1,
       "y": 0
-    },
-    {
-      "action": "move",
-      "truck": 2,
-      "x": 6,
-      "y": 0
     }
   ],
   [
-    {
-      "action": "move",
-      "truck": 1,
-      "x": 5,
-      "y": 2
-    },
     {
       "action": "move",
       "truck": 0,

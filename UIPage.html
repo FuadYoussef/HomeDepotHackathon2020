@@ -38,12 +38,106 @@
 	</body>
 
 	<script>
+		//paste world here:
+		var world = {
+  "trucks": [
+    {
+      "id": 0,
+      "x": 1,
+      "y": 2,
+      "capacity": 1,
+      "range": 1
+    },
+    {
+      "id": 1,
+      "x": 1,
+      "y": 2,
+      "capacity": 1,
+      "range": 1
+    },
+    {
+      "id": 2,
+      "x": 1,
+      "y": 2,
+      "capacity": 1,
+      "range": 1
+    }
+  ],
+  "stores": [
+    {
+      "id": 0,
+      "x": 5,
+      "y": 6,
+      "capacity": 1,
+      "products": [
+        {
+          "name": "apple",
+          "quantity": 1
+        }
+      ],
+      "demand": [
+        [
+          {
+            "name": "apple",
+            "quantity": 1
+          }
+        ],
+        [
+          {
+            "name": "apple",
+            "quantity": 1
+          }
+        ]
+      ]
+    },
+    {
+      "id": 1,
+      "x": 1,
+      "y": 1,
+      "capacity": 1,
+      "products": [
+        {
+          "name": "apple",
+          "quantity": 1
+        }
+      ],
+      "demand": [
+        [
+          {
+            "name": "apple",
+            "quantity": 1
+          }
+        ],
+        [
+          {
+            "name": "apple",
+            "quantity": 1
+          }
+        ]
+      ]
+    }
+  ],
+  "warehouse": {
+    "x": 3,
+    "y": 5
+  },
+  "products": [
+    {
+      "name": "apple",
+      "value": 1,
+      "weight": 1
+    }
+  ]
+}
+
+
 
 		var instructions = new Array();
 		function loadJSON(callback) {
 
 		    var xobj = new XMLHttpRequest();
 		    xobj.overrideMimeType("application/json");
+		    //insert instructions here
 		    xobj.open('GET', 'valid.json', true);
 		    xobj.onreadystatechange = function() {
 		        if (xobj.readyState == 4 && xobj.status == "200") {
@@ -66,11 +160,12 @@
 	    var i = 0;
 	    while (i<jsonresponse.length) {
 	    	var j = 0;
-	    	while(j<jsonresponse.length) {
+	    	while(j<jsonresponse[i].length) {
 	    		//console.log(i+ " " + j+ " " + jsonresponse[i][j].action)
 	    		if (jsonresponse[i][j].action === "move") {
 	    			instructions.push(jsonresponse[i][j]);
 	    		}
+	    		console.log(jsonresponse[i][j]);
 	    		j++;
 	    	}
 	    	i++;
@@ -93,16 +188,7 @@
 		var trucks= new Array();
 		var stores = new Array();
 
-		var z;
-		for (z = 0; z < 3; z++) {
-			var truckToAdd = { x:0, y:0}
-			trucks.push(truckToAdd);
-		}
-		var q;
-		for (q = 0; q<3; q++) {
-			var storeToAdd = {x:(q+1)*100, y:q*100}
-			stores.push(storeToAdd);
-		}
+	
 		var wdivisions = 10;
 		var hdivisions = 10;
 		var drawTruck = new Image();
@@ -125,12 +211,12 @@
 			    ctx.lineTo(canvas.width, i);
 			    ctx.stroke();
 			}
-			ctx.drawImage(warehouse, warehousex, warehousey, 30, 30);
-			for (var c = 0; c < stores.length; c++) {
-				ctx.drawImage(drawStore, stores[c].x, stores[c].y, 30,30);
+			ctx.drawImage(warehouse, world.warehouse.x*(canvas.width/wdivisions), world.warehouse.y*(canvas.height/hdivisions), 30, 30);
+			for (var c = 0; c < world.stores.length; c++) {
+				ctx.drawImage(drawStore, world.stores[c].x*(canvas.width/wdivisions), world.stores[c].y*(canvas.height/hdivisions), 30,30);
 			}
-			for (var b = 0; b < trucks.length; b++) {
-				ctx.drawImage(drawTruck, trucks[b].x, trucks[b].y, 30,30);
+			for (var b = 0; b < world.trucks.length; b++) {
+				ctx.drawImage(drawTruck, world.trucks[b].x, world.trucks[b].y, 30,30);
 			}
 
 		  window.requestAnimationFrame(loop)
@@ -140,23 +226,13 @@
 		document.addEventListener('mousedown', function(event) {
 		  if (event.button === 0) {
 		  	//console.log("clicking");
-		  	//console.log(instructions);
+		  	console.log(instructions);
 		  	if(instc < instructions.length) {
 		  		console.log(instructions[instc]);
-		  		trucks[instructions[instc].truck].x = instructions[instc].x * canvas.width/wdivisions;
-		  		trucks[instructions[instc].truck].y = instructions[instc].y * canvas.height/hdivisions;
+		  		world.trucks[instructions[instc].truck].x = instructions[instc].x * canvas.width/wdivisions;
+		  		world.trucks[instructions[instc].truck].y = instructions[instc].y * canvas.height/hdivisions;
 		  		instc++;
 		  	}
-		  	/*
-		    trucks[0].x += (canvas.width/wdivisions)
-		    trucks[0].y += (canvas.height/hdivisions)
-
-		    trucks[1].x += (3*canvas.width/wdivisions)
-		    trucks[1].y += (canvas.height/hdivisions)
-
-		    trucks[2].x += (2*canvas.width/wdivisions)
-		    trucks[2].y += (4*canvas.height/hdivisions)
-		    */
 		  }
 		})
 
