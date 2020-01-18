@@ -31,6 +31,7 @@
 		<div class="aaa">
 		    <h1 style="color:white;">Shipping Routes</h1>
 		    <h2 style="color:white;">Home Depot Hackathon 2020</h2>
+		    <h2 style="color:white;" id="dayLabel">Day Label</h2>
 			<canvas id="myCanvas" width="500" height="500" align="center"
 			style="border:5px solid #000000;">
 			</canvas>
@@ -133,6 +134,7 @@
 
 
 		var instructions = new Array();
+		var instructionDays = new Array();
 		function loadJSON(callback) {
 
 		    var xobj = new XMLHttpRequest();
@@ -164,6 +166,7 @@
 	    		//console.log(i+ " " + j+ " " + jsonresponse[i][j].action)
 	    		if (jsonresponse[i][j].action === "move") {
 	    			instructions.push(jsonresponse[i][j]);
+	    			instructionDays.push(i);
 	    		}
 	    		console.log(jsonresponse[i][j]);
 	    		j++;
@@ -176,6 +179,7 @@
 
 
 		var canvas = document.getElementById("myCanvas");
+		var dayLabel = document.getElementById("dayLabel");
 		var ctx = canvas.getContext("2d");
 
 
@@ -252,9 +256,9 @@
 			    ctx.lineTo(canvas.width, i);
 			    ctx.stroke();
 			}
-			ctx.drawImage(warehouse, world.warehouse.x*(canvas.width/wdivisions), world.warehouse.y*(canvas.height/hdivisions), 30, 30);
+			ctx.drawImage(warehouse, world.warehouse.x*(canvas.width/wdivisions)-15, world.warehouse.y*(canvas.height/hdivisions)-15, 30, 30);
 			for (var c = 0; c < world.stores.length; c++) {
-				ctx.drawImage(drawStore, world.stores[c].x*(canvas.width/wdivisions), world.stores[c].y*(canvas.height/hdivisions), 30,30);
+				ctx.drawImage(drawStore, world.stores[c].x*(canvas.width/wdivisions)-15, world.stores[c].y*(canvas.height/hdivisions)-15, 30,30);
 			}
 			for (var b = 0; b < world.trucks.length; b++) {
 				/*if (b < colors.length) {
@@ -262,12 +266,13 @@
 		  			ctx.rect(world.trucks[b].x, world.trucks[b].y, (canvas.width/wdivisions),(canvas.height/hdivisions));
 					ctx.fill();
 		  		}*/
-				ctx.drawImage(drawTruck, world.trucks[b].x, world.trucks[b].y, 30,30);
+				ctx.drawImage(drawTruck, world.trucks[b].x-15, world.trucks[b].y-15, 30,30);
 			}
 			if(instc < instructions.length) {
 		  		console.log(instructions[instc]);
 		  		world.trucks[instructions[instc].truck].x = instructions[instc].x * canvas.width/wdivisions;
 		  		world.trucks[instructions[instc].truck].y = instructions[instc].y * canvas.height/hdivisions;
+		  		dayLabel.innerText = "Day " + instructionDays[instc];
 		  		instc++;
 		  	}
 		  window.requestAnimationFrame(loop)
