@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<body style="background-color:#EE8E43;">
+		<head>
+		  <title>Shipping Routes</title>
+		</head>
+		<header>
+			<style type="text/css">
+				h1 {
+					font-family: "Impact", serif;
+					font-size: 60px
+				}
+			</style>
+		    <h1 style="color:white;" align="center">Shipping Routes</h1>
+		    <h2 style="color:white;" align="center">Home Depot Hackathon 2020</h2>
+		</header>
+
+		<p align="center">
+			<canvas id="myCanvas" width="500" height="500" align="center"
+			style="border:5px solid #000000;">
+			</canvas>
+		</p>
+	</body>
+
+	<script>
+		var canvas = document.getElementById("myCanvas");
+		var ctx = canvas.getContext("2d");
+		ctx.fillStyle = "#EE7125";
+		ctx.fillRect(0, 0, canvas.width, canvas.height);
+		var i;
+		for (i = canvas.width/10; i < canvas.width; i+=canvas.width/10) {
+		  	ctx.moveTo(i, 0);
+			ctx.lineTo(i, canvas.height);
+			ctx.stroke();
+		}
+		for(i = canvas.height/10; i < canvas.height; i+=canvas.height/10) {
+			ctx.moveTo(0, i);
+		    ctx.lineTo(canvas.width, i);
+		    ctx.stroke();
+		}
+	</script>
+</html>

@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Truck {
     public int id;
@@ -30,6 +31,30 @@ public class Truck {
         }
     }
 
+    public Instruction load(String action, int truck, HashMap<Product, Integer> products) {
+        HashMap<Product, Integer> loadedProducts = new HashMap();
+        for (Product p: products.keySet()) {
+            while (p.value > 0 && availCap > 0) {
+                this.products.add(p);
+                availCap -= p.weight;
+                if (!loadedProducts.containsKey(p)) {
+                    loadedProducts.put(p, 1);
+                } else {
+                    loadedProducts.put(p,loadedProducts.get(p) + 1 );
+                }
+            }
+        }
+
+        for (int i = 0; i < products.keySet().le; i++) {
+            if (availCap - products[i].weight >= 0) {
+                this.products.add(products[i]);
+                loadedProducts.add(products[i]);
+                availCap-= products[i].weight;
+            }
+        }
+        return new Instruction(action, truck, (Product[])loadedProducts.toArray());
+    }
+    /*
     public Instruction load(String action, int truck, Product[] products) {
         ArrayList<Product> loadedProducts = new ArrayList<>();
         for (int i = 0; i < products.length; i++) {
@@ -41,7 +66,7 @@ public class Truck {
         }
         return new Instruction(action, truck, (Product[])loadedProducts.toArray());
     }
-
+    */
     public Instruction unload(String action, int truck, Store store, Product[] products) {
         ArrayList<Product> unloadedProducts = new ArrayList<>();
         for (int i = 0; i < products.length; i++) {
