@@ -4,36 +4,53 @@
 		<head>
 		  <title>Shipping Routes</title>
 		</head>
+		<img src="logo.jpg" alt="Logo" height="250px" width="250px">
 		<header>
 			<style type="text/css">
 				h1 {
 					font-family: "Impact", serif;
 					font-size: 60px
 				}
+				h2 {
+					font-family: "Arial"
+				}
+				.aaa {
+					top: 0;
+					bottom: 0;
+					left: 0;
+					right: 0;
+					position: absolute;
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					justify-content: center;
+				}
 			</style>
-		    <h1 style="color:white;" align="center">Shipping Routes</h1>
-		    <h2 style="color:white;" align="center">Home Depot Hackathon 2020</h2>
 		</header>
 
-		<p align="center">
+		<div class="aaa">
+		    <h1 style="color:white;">Shipping Routes</h1>
+		    <h2 style="color:white;">Home Depot Hackathon 2020</h2>
 			<canvas id="myCanvas" width="500" height="500" align="center"
 			style="border:5px solid #000000;">
 			</canvas>
-		</p>
+		</div>
 	</body>
 
 	<script>
 		var canvas = document.getElementById("myCanvas");
 		var ctx = canvas.getContext("2d");
-		ctx.fillStyle = "#EE7125";
+		ctx.fillStyle = "#FF6400";
 		ctx.fillRect(0, 0, canvas.width, canvas.height);
 		var i;
-		for (i = canvas.width/10; i < canvas.width; i+=canvas.width/10) {
+		var wdivisions = 10;
+		var hdivisions = 10;
+		for (i = canvas.width/wdivisions; i < canvas.width; i+=canvas.width/wdivisions) {
 		  	ctx.moveTo(i, 0);
 			ctx.lineTo(i, canvas.height);
 			ctx.stroke();
 		}
-		for(i = canvas.height/10; i < canvas.height; i+=canvas.height/10) {
+		for(i = canvas.height/hdivisions; i < canvas.height; i+=canvas.height/hdivisions) {
 			ctx.moveTo(0, i);
 		    ctx.lineTo(canvas.width, i);
 		    ctx.stroke();
