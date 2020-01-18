@@ -40,20 +40,48 @@
 	<script>
 		var canvas = document.getElementById("myCanvas");
 		var ctx = canvas.getContext("2d");
-		ctx.fillStyle = "#FF6400";
-		ctx.fillRect(0, 0, canvas.width, canvas.height);
-		var i;
+		
+		var warehousex = 0
+		var warehousey = 0
+		var warehouse = new Image();
+		warehouse.src = 'warehouse.jpg';
+		var truckx = 0;
+		var trucky = 0;
+		var truck = new Image();
+		truck.src = 'truck.png';
+		var storex = 200;
+		var storey = 200;
+		var store = new Image();
+		store.src = 'store.jpg';
 		var wdivisions = 10;
 		var hdivisions = 10;
-		for (i = canvas.width/wdivisions; i < canvas.width; i+=canvas.width/wdivisions) {
-		  	ctx.moveTo(i, 0);
-			ctx.lineTo(i, canvas.height);
-			ctx.stroke();
-		}
-		for(i = canvas.height/hdivisions; i < canvas.height; i+=canvas.height/hdivisions) {
-			ctx.moveTo(0, i);
-		    ctx.lineTo(canvas.width, i);
-		    ctx.stroke();
-		}
+		window.requestAnimationFrame(function loop() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height)
+			ctx.fillStyle = "#FF6400";
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			var i;
+			
+			for (i = canvas.width/wdivisions; i < canvas.width; i+=canvas.width/wdivisions) {
+			  	ctx.moveTo(i, 0);
+				ctx.lineTo(i, canvas.height);
+				ctx.stroke();
+			}
+			for(i = canvas.height/hdivisions; i < canvas.height; i+=canvas.height/hdivisions) {
+				ctx.moveTo(0, i);
+			    ctx.lineTo(canvas.width, i);
+			    ctx.stroke();
+			}
+			ctx.drawImage(warehouse, warehousex, warehousey, 30, 30);
+			ctx.drawImage(truck, truckx, trucky, 30,30);
+			ctx.drawImage(store, storex, storey, 30,30);
+		  window.requestAnimationFrame(loop)
+		})
+		document.addEventListener('mousedown', function(event) {
+		  if (event.button === 0) {
+		    truckx += canvas.width/wdivisions
+		    trucky += canvas.height/hdivisions
+		  }
+		})
+
 	</script>
 </html>
