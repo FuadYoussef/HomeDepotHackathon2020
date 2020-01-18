@@ -179,7 +179,7 @@
 		var ctx = canvas.getContext("2d");
 
 
-
+		var colors = ["#FF2233", "#22FF33", "#2233FF", "#33F2F2", "#ABCDEF", "#555522", "#00FF44", "#FF0033", "#3431FF", "#114488"];
 		var warehousex = 0
 		var warehousey = 0
 		var warehouse = new Image();
@@ -191,11 +191,52 @@
 	
 		var wdivisions = 10;
 		var hdivisions = 10;
+
+		for (var ts = 0; ts < world.trucks.length; ts++){
+			if(world.trucks[ts].x > 9) {
+				wdivisions = (world.trucks[ts].x/10) + 1;
+				hdivisions = (world.trucks[ts].x/10) + 1;
+			}
+			if(world.trucks[ts].y > 9) {
+				wdivisions = (world.trucks[ts].y/10) + 1;
+				hdivisions = (world.trucks[ts].y/10) + 1;
+			}
+		}
+
+		for (var ss = 0; ss< world.stores.length; ss++){
+			if(world.stores[ss].x > 9) {
+				if (wdivisions < ((world.stores[ss].x/10) + 1) *10) {
+					wdivisions = (world.stores[ss].x/10) + 1;
+					hdivisions = (world.stores[ss].x/10) + 1;
+				}
+			}
+			if(world.stores[ss].y > 9) {
+				if (wdivisions < ((world.stores[ss].y/10) + 1) *10) {
+					wdivisions = (world.stores[ss].y/10) + 1;
+					hdivisions = (world.stores[ss].y/10) + 1;
+				}
+			}
+		}
+
+		if(world.warehouse.x > 9) {
+			if (wdivisions < ((world.warehouse.x/10) + 1) *10) {
+				wdivisions = (world.warehouse.x/10) + 1;
+				hdivisions = (world.warehouse.x/10) + 1;
+			}
+			if (wdivisions < ((world.warehouse.y/10) + 1) *10) {
+				wdivisions = (world.warehouse.y/10) + 1;
+				hdivisions = (world.warehouse.y/10) + 1;
+			}
+
+		}
+
+
 		var drawTruck = new Image();
 		drawTruck.src = 'truck.png';
 		var drawStore = new Image();
 		drawStore.src = 'store.jpg';
 		window.requestAnimationFrame(function loop() {
+			window.setTimeout(function() {
 			ctx.clearRect(0, 0, canvas.width, canvas.height)
 			ctx.fillStyle = "#FF6400";
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -216,10 +257,21 @@
 				ctx.drawImage(drawStore, world.stores[c].x*(canvas.width/wdivisions), world.stores[c].y*(canvas.height/hdivisions), 30,30);
 			}
 			for (var b = 0; b < world.trucks.length; b++) {
+				/*if (b < colors.length) {
+		  			ctx.fillStyle = colors[b];
+		  			ctx.rect(world.trucks[b].x, world.trucks[b].y, (canvas.width/wdivisions),(canvas.height/hdivisions));
+					ctx.fill();
+		  		}*/
 				ctx.drawImage(drawTruck, world.trucks[b].x, world.trucks[b].y, 30,30);
 			}
-
+			if(instc < instructions.length) {
+		  		console.log(instructions[instc]);
+		  		world.trucks[instructions[instc].truck].x = instructions[instc].x * canvas.width/wdivisions;
+		  		world.trucks[instructions[instc].truck].y = instructions[instc].y * canvas.height/hdivisions;
+		  		instc++;
+		  	}
 		  window.requestAnimationFrame(loop)
+		},1000/10);
 		})
 
 		var instc = 0;
